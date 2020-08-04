@@ -1,4 +1,4 @@
-import { IEntity } from "./IEntity.ts";
+import { IEntity } from "../../common/interfaces/IEntity.ts";
 
 export class CyclicGraphError extends Error {
     constructor(readonly nodes: IEntity[]) {

@@ -1,7 +1,8 @@
-import { IEntity } from "./IEntity.ts";
-import { CyclicGraphError } from "./CyclicGraphError.ts";
+import { IEntity } from "../../common/interfaces/IEntity.ts";
+import { CyclicGraphError } from "../../graph/errors/CyclicGraphError.ts";
+import { IGraph } from "../../graph/IGraph.ts";
 
-export class KahnGraph<N extends IEntity> {
+export class KahnGraph<N extends IEntity> implements IGraph<N>{
     /**
      * Hash by node identifier to index.
      */

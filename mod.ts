@@ -1,3 +1,3 @@
-export { CyclicGraphError } from "./lib/CyclicGraphError.ts";
-export { IEntity } from "./lib/IEntity.ts";
-export { KahnGraph } from "./lib/KahnGraph.ts";
+export { CyclicGraphError } from "./lib/graph/errors/CyclicGraphError.ts";
+export { IEntity } from "./lib/common/interfaces/IEntity.ts";
+export { KahnGraph } from "./lib/sort/topological/KahnGraph.ts";
