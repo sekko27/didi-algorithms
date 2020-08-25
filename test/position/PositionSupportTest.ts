@@ -1,0 +1,19 @@
+import { assertEquals } from "https://deno.land/std@0.63.0/testing/asserts.ts";
+import { PositionSupport } from "../../lib/position/PositionSupport.ts";
+import { KahnGraph } from "../../lib/sort/topological/KahnGraph.ts";
+
+function e(id: number) {
+    return {id: String(id)};
+}
+
+Deno.test("positioning test #1", () => {
+    assertEquals(
+        new PositionSupport(() => new KahnGraph())
+            .elem(e(1))
+            .elem(e(2)).after("1")
+            .elem(e(3)).before("1").after("4")
+            .elem(e(4))
+            .sort(),
+        [e(4), e(3), e(1), e(2)]
+    )
+});
