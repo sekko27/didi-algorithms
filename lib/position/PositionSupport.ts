@@ -10,9 +10,11 @@ interface ILazyPositionProvider<T extends IEntity> {
 }
 
 export class PositionSupport<T extends IEntity> {
+
     private currentElementId: string | undefined = undefined;
     private readonly elements: Map<string, T> = new Map();
     private readonly positionProviders: Map<string, ILazyPositionProvider<T>[]> = new Map();
+
     constructor(private readonly graphFactory: () => IGraph<T> = () => new KahnGraph()) {
     }
 
