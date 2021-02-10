@@ -99,7 +99,7 @@ export class PositionSupport<T extends IEntity> {
         for (const [element, providers] of PositionSupport.iterate(this).concat(PositionSupport.iterate(other))) {
             result.elem(element);
             for (const provider of providers) {
-                result.positioning(provider.bind(result));
+                result.positioning(provider);
             }
         }
         return result;
