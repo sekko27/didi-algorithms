@@ -5,8 +5,12 @@ import { IPosition } from "./IPosition.ts";
 import { After } from "./After.ts";
 import { KahnGraph } from "../sort/topological/KahnGraph.ts";
 
+type IElementByIdProvider<T extends IEntity> = {
+    elementById: (id: string) => T;
+};
+
 interface ILazyPositionProvider<T extends IEntity> {
-    (): IPosition<T>;
+    (elementByIdProvider: IElementByIdProvider<T>): IPosition<T>;
 }
 
 export class PositionSupport<T extends IEntity> {
@@ -26,11 +30,11 @@ export class PositionSupport<T extends IEntity> {
 
 
     before(elementId: string): this {
-        return this.positioning(() => new Before(this.elementById(elementId)));
+        return this.positioning((elementProvider) => new Before(elementProvider.elementById(elementId)));
     }
 
     after(elementId: string): this {
-        return this.positioning(() => new After(this.elementById(elementId)));
+        return this.positioning((elementProvider) => new After(elementProvider.elementById(elementId)));
     }
 
     sort(): T[] {
@@ -41,7 +45,7 @@ export class PositionSupport<T extends IEntity> {
         for (const [elementId, providers] of this.positionProviders.entries()) {
             const element: T = this.elementById(elementId);
             for (const provider of providers) {
-                for (const [from, to] of provider().sort(element)) {
+                for (const [from, to] of provider(this).sort(element)) {
                     graph.addEdge(from, to);
                 }
             }
@@ -74,7 +78,7 @@ export class PositionSupport<T extends IEntity> {
         return this.positionProviders.get(elementId) as ILazyPositionProvider<T>[];
     }
 
-    private elementById(elementId: string): T {
+    public elementById(elementId: string): T {
         if (!this.elements.has(elementId)) {
             throw new ReferenceError(`Element not found with id: ${elementId}`);
         }
@@ -95,7 +99,7 @@ export class PositionSupport<T extends IEntity> {
         for (const [element, providers] of PositionSupport.iterate(this).concat(PositionSupport.iterate(other))) {
             result.elem(element);
             for (const provider of providers) {
-                result.positioning(provider);
+                result.positioning(provider.bind(result));
             }
         }
         return result;

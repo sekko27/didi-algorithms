@@ -20,7 +20,7 @@ Deno.test("positioning test #1", () => {
 
 Deno.test("concatenation", () => {
     const p1 = new PositionSupport().elem(e(1)).elem(e(2)).after("1");
-    const p2 = new PositionSupport().elem(e(1)).elem(e(3)).before("1");
+    const p2 = new PositionSupport().elem(e(1)).elem(e(3)).after("2");
     const sorted = p1.concat(p2).sort();
-    assertEquals(sorted, [e(3), e(1), e(2)]);
+    assertEquals(sorted, [e(1), e(2), e(3)]);
 })
