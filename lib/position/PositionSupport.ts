@@ -100,4 +100,8 @@ export class PositionSupport<T extends IEntity> {
         }
         return result;
     }
+
+    public static concatReducer<U extends IEntity>(first: PositionSupport<U>, second: PositionSupport<U>): PositionSupport<U> {
+        return first.concat(second);
+    }
 }
