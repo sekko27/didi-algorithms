@@ -1,4 +1,4 @@
-import { assertEquals, fail, assertThrows } from "https://deno.land/std@0.63.0/testing/asserts.ts";
+import { assertEquals, assertThrows } from "https://deno.land/std@0.86.0/testing/asserts.ts";
 import { KahnGraph } from "../../../lib/sort/topological/KahnGraph.ts";
 import { CyclicGraphError } from "../../../lib/graph/errors/CyclicGraphError.ts";
 

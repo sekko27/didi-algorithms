@@ -80,4 +80,24 @@ export class PositionSupport<T extends IEntity> {
         }
         return this.elements.get(elementId) as T;
     }
+
+    private static iterate<U extends IEntity>(positionSupport: PositionSupport<U>): [U, ILazyPositionProvider<U>[]][] {
+        const result: [U, ILazyPositionProvider<U>[]][] = [];
+        for (const [id, element] of positionSupport.elements) {
+            const providers = positionSupport.positionProviders.get(id) || [];
+            result.push([element, providers]);
+        }
+        return result;
+    }
+
+    public concat(other: PositionSupport<T>): PositionSupport<T> {
+        const result = new PositionSupport(this.graphFactory);
+        for (const [element, providers] of PositionSupport.iterate(this).concat(PositionSupport.iterate(other))) {
+            result.elem(element);
+            for (const provider of providers) {
+                result.positioning(provider);
+            }
+        }
+        return result;
+    }
 }
